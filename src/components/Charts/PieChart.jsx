@@ -1,49 +1,69 @@
 import React from "react";
 import {
-  ChartComponent,
-  SeriesCollectionDirective,
-  SeriesDirective,
+  AccumulationChartComponent,
+  AccumulationSeriesCollectionDirective,
+  AccumulationSeriesDirective,
+  AccumulationLegend,
+  PieSeries,
+  AccumulationDataLabel,
   Inject,
-  DateTime,
-  Legend,
-  Tooltip,
-  LineSeries,
+  AccumulationTooltip,
 } from "@syncfusion/ej2-react-charts";
-import {
-  lineCustomSeries,
-  LinePrimaryXAxis,
-  LinePrimaryYAxis,
-} from "../../data/dummy";
+
 import { useStateContext } from "../../contexts/ContextProvider";
-const palette = ["#03C9D7", "#FF5C8E", "#FB9678"];
+import { pieChartData } from "../../data/dummy";
 
 const PieChart = () => {
   const { currentMode } = useStateContext();
   const textColor = currentMode === "Dark" ? "#fff" : "#20232A";
   const legendSettings = {
+    visible: true,
     textStyle: {
       color: textColor,
     },
+    background: "transparent",
   };
   return (
-    <ChartComponent
-      id="line-chart"
-      height="420px"
-      primaryXAxis={LinePrimaryXAxis}
-      primaryYAxis={LinePrimaryYAxis}
-      chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true }}
-      background={currentMode === "Dark" ? "#20232A" : "#fff"}
+    <AccumulationChartComponent
+      id="pie-chart"
       legendSettings={legendSettings}
-      palettes={palette}
+      height="480px"
+      background={currentMode === "Dark" ? "#33373E" : "#fff"}
+      tooltip={{ enable: true }}
     >
-      <Inject services={[LineSeries, DateTime, Legend, Tooltip]} />
-      <SeriesCollectionDirective>
-        {lineCustomSeries.map((item, index) => (
-          <SeriesDirective key={index} {...item} />
-        ))}
-      </SeriesCollectionDirective>
-    </ChartComponent>
+      <Inject
+        services={[
+          AccumulationLegend,
+          PieSeries,
+          AccumulationDataLabel,
+          AccumulationTooltip,
+        ]}
+      />
+      <AccumulationSeriesCollectionDirective>
+        <AccumulationSeriesDirective
+          name="Sale"
+          dataSource={pieChartData}
+          xName="x"
+          yName="y"
+          innerRadius="40%"
+          startAngle={0}
+          endAngle={360}
+          radius="70%"
+          explode
+          explodeOffset="10%"
+          explodeIndex={2}
+          dataLabel={{
+            visible: true,
+            name: "text",
+            position: "Inside",
+            font: {
+              fontWeight: "600",
+              color: "#fff",
+            },
+          }}
+        />
+      </AccumulationSeriesCollectionDirective>
+    </AccumulationChartComponent>
   );
 };
 
