@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Navbar, Sidebar, ThemeSettings } from "./components";
 import {
   Ecommerce,
@@ -49,6 +49,7 @@ const App = () => {
               <Routes>
                 {/* Dachboard */}
                 <Route path="/" element={<Ecommerce />} />
+                <Route index element={<Ecommerce />} />
                 <Route path="/ecommerce" element={<Ecommerce />} />
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />} />
@@ -68,6 +69,7 @@ const App = () => {
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
                 <Route path="/stacked" element={<Stacked />} />
+                <Route path="*" element={<Navigate to="/ecommerce" />} />
               </Routes>
             </div>
           </div>
